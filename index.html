@@ -55,10 +55,7 @@
       
       function takeMove(move) {
         var computerMove = pickRandomMove();
-        
         resultElement.innerHTML = [move, computerMove].map(toImage).join(formattedResult(move, computerMove));
-        
-        return false;
       }
       
       function toImage(move) {
@@ -66,7 +63,7 @@
       }
       
       function toLink(move) {
-        return '<a href="#" onclick="takeMove(\'' + move + '\')" class="move ' + move + '"></a>';
+        return '<a href="#" onclick="takeMove(\'' + move + '\'); return false" class="move ' + move + '"></a>';
       }
       
       window.onload = function() {
