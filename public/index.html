@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Rock Paper Scissors Lizard Spock</title>
+    <link rel="stylesheet" href="stylesheets/master.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <script type="text/javascript" charset="utf-8">
+      // Rules
+      var moves = [], rules = {
+        rock: { lizard: 'crushes', scissors: 'breaks' },
+        paper: { spock: 'disproves', rock: 'covers' },
+        scissors: { paper: 'cut', lizard: 'decapitate' },
+        lizard: { paper: 'eats', spock: 'poisons' },
+        spock: { rock: 'vaporizes', scissors: 'bends' }
+      };
+      
+      // The elements we'll be dealing with
+      var movesElement, resultElement;
+      
+      // Produce a list of moves from the rules
+      for(var move in rules) {
+        moves.push(move);
+      }
+      
+      // Win: 1, Lose: -1, Draw: 0
+      function winner(a, b) {
+        return a == b ? 0 : (rules[a][b] ? 1 : -1);
+      }
+      
+      // Returns the description of a winning move (eg. "lizard poisons spock")
+      function moveText(winningMove, losingMove) {
+        return [winningMove, rules[winningMove][losingMove], losingMove].join(' ');
+      }
+      
+      // Returns a formatted result of the outcome
+      // eg. '<strong class="won">lizard poisons spock</strong>'
+      //     '<strong class="lost">spock bends scissors</strong>'
+      //     '<strong class="draw">draw</strong>'
+      function formattedResult(moveA, moveB) {
+        var text = 'draw', class = text;
+        
+        if(moveA != moveB) {
+          var result = [moveA, moveB].sort(winner);
+          class = result[1] == moveA ? 'won' : 'lost';
+          text = moveText(result[1], result[0]);
+        }
+        
+        return "<strong class='" + class + "'>" + text + "</strong>";
+      }
+      
+      function pickRandomMove() {
+        var random = Math.round(Math.random() * (moves.length - 1));
+        return moves[random];
+      }
+      
+      function takeMove(move) {
+        var computerMove = pickRandomMove();
+        
+        resultElement.innerHTML = [move, computerMove].map(toImage).join(formattedResult(move, computerMove));
+        
+        return false;
+      }
+      
+      function toImage(move) {
+        return '<div class="move ' + move + '"></div>';
+      }
+      
+      function toLink(move) {
+        return '<a href="#" onclick="takeMove(\'' + move + '\')" class="move ' + move + '"></a>';
+      }
+      
+      window.onload = function() {
+        movesElement = document.getElementById('options');
+        resultElement = document.getElementById('result');
+      
+        movesElement.innerHTML = moves.map(toLink).join(' ');
+      }
+    </script>
+  </head>
+  <body>
+    
+    <h1>Rock Paper Lizard Scissors Spock</h1>
+    
+    <div id="options"></div>
+    <div id="result"></div>
+    
+  </body>
+</html>
