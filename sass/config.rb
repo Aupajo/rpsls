@@ -2,7 +2,7 @@
 project_type = :stand_alone
  
 sass_dir = "."
-css_dir = "../public/stylesheets"
+css_dir = "../stylesheets"
 output_style = :compressed
  
 # Enable relative paths to assets
